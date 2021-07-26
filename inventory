@@ -1,11 +1,8 @@
 [web_servers]
-10.0.0.42
-
-[hypervisors]
-10.0.0.42
 
 [db_servers]
-10.0.0.42
 
 [file_servers]
 10.0.0.42
+
+[workstations]
