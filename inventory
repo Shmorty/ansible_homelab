@@ -1,12 +1,12 @@
 [db_servers]
 
 [file_servers]
-10.0.0.42
+atlas.local
 
 [pi]
-10.0.0.16
+raspberrypi.local
 
 [web_servers]
 
 [workstations]
-10.0.0.42
+atlas.local

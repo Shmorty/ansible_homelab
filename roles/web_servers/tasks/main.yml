@@ -1,30 +1,17 @@
-- name: install apache and php packages (CentOS)
-  tags: apache,centos,httpd
-  dnf:
+- name: install apache and php packages
+  tags: apache,httpd,php
+  package:
     name:
-      - httpd
-      - php
+      - "{{ apache_package_name }}"
+      - "{{ php_package_name }}"
     state: latest
-    update_cache: yes
-  when: ansible_distribution == "CentOS"
 
-- name: start and enable httpd (CentOS)
-  tags: apache,centos,httpd
+- name: start and enable httpd
+  tags: apache,httpd
   service:
-    name: httpd
+    name: "{{ apache_service }}"
     state: started
     enabled: yes
-  when: ansible_distribution == "CentOS"
-
-- name: install apache and php packages (Debian or Ubuntu)
-  tags: apache,apache2,ubuntu,debian
-  apt:
-    name:
-      - apache2
-      - libapache2-mod-php
-    state: latest
-    update_cache: yes
-  when: ansible_distribution in [ "Debian", "Ubuntu"]
 
 - name: change e-mail address for admin
   tags: apache,centos,httpd
@@ -33,13 +20,7 @@
     regexp: '^ServerAdmin'
     line: ServerAdmin somebody@somewhere.net
   when: ansible_distribution == "CentOS"
-  register: httpd
-
-- name: restart httpd (CentOS)
-  tags: apache,centos,httpd
-  service:
-    name: httpd
-    state: restarted
+  notify: restart_apache
 
 - name: copy default html file for site
   tags: apache,apache2,httpd
