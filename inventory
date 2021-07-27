@@ -1,11 +1,12 @@
-[web_servers]
-
 [db_servers]
 
 [file_servers]
 10.0.0.42
 
-[workstations]
-
 [pi]
 10.0.0.16
+
+[web_servers]
+
+[workstations]
+10.0.0.42

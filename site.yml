@@ -12,115 +12,25 @@
 
 - hosts: all
   become: true
-  tasks:
-
-  - name: create users lyla
-    tags: always
-    user:
-      name: lyla
-      groups: sudo
-
-  - name: add ssh key for lyla
-    tags: always
-    authorized_key:
-      user: lyla
-      key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMGP328LIy1vSkyupe3UD+CpVQmWcl6uHz2MIZMGSLMq paul default"
-
-  - name: create users renee
-    tags: always
-    user:
-      name: renee
-      groups: sudo
-
-  - name: add ssh key for renee
-    tags: always
-    authorized_key:
-      user: renee
-      key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMGP328LIy1vSkyupe3UD+CpVQmWcl6uHz2MIZMGSLMq paul default"
-
+  roles:
+    - base
+ 
 - hosts: workstations
   become: true
-  tasks:
-
-  - name: install unzip
-    package:
-      name: unzip
-
-  # - name: install terraform
-  #   unarchive:
-  #     src: https://releases.hashicorp.com/terraform/0.12.28/terraform_0.12.28_linux_amd64.zip
-  #     dest: /usr/local/bin
-  #     remote_src: yes
-  #     mode: 0755
-  #     owner: root
-  #     group: root
+  roles:
+    - workstations
 
 - hosts: web_servers
   become: true
-  tasks:
-
-  - name: install apache and php packages (Debian or Ubuntu)
-    tags: apache,apache2,ubuntu,debian
-    apt:
-      name:
-        - apache2
-        - libapache2-mod-php
-      state: latest
-      update_cache: yes
-    when: ansible_distribution in [ "Debian", "Ubuntu"]
-
-  - name: install apache and php packages (CentOS)
-    tags: apache,centos,httpd
-    dnf:
-      name:
-        - httpd
-        - php
-      state: latest
-      update_cache: yes
-    when: ansible_distribution == "CentOS"
-
-  - name: copy default html file for site
-    tags: apache,apache2,httpd
-    copy:
-      src: default_site.html
-      dest: /var/www/html/index.html
-      owner: root
-      group: root
-      mode: 0644
+  roles:
+    - web_servers
 
 - hosts: db_servers
   become: true
-  tasks:
-
-  - name: install mariadb package (CentOS)
-    tags: centos,db,mariadb
-    dnf:
-      name: mariadb
-      state: latest
-    when: ansible_distribution == "CentOS"
-
-  - name: install mariadb package (Debian or Ubuntu)
-    tags: db,mariadb,ubuntu,debian
-    apt:
-      name: mariadb-server
-      state: latest
-    when: ansible_distribution in [ "Debian", "Ubuntu" ]
+  roles:
+    - db_servers
 
 - hosts: file_servers
   become: true
-  tasks:
-
-  # - name: install zfs
-  #   tags: zfs
-  #   package:
-  #     name:
-  #       - linux-headers-4.19.0-17-686-pae
-  #       - buster-backports
-  #       - zfsutils-linux
-  #     state: latest
-
-  - name: install samba package
-    tags: samba
-    package:
-      name: samba
-      state: latest
+  roles:
+    - file_servers
