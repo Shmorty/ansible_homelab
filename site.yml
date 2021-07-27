@@ -4,19 +4,39 @@
   become: true
   pre_tasks:
 
-  - name: install updates (CentOS)
+  - name: update repo cache
     tags: always
-    dnf:
-      update_only: yes
+    package:
       update_cache: yes
-    when: ansible_distribution == "CentOS"
+    changed_when: false
 
-  - name: install updates (Debian or Ubuntu)
+- hosts: all
+  become: true
+  tasks:
+
+  - name: create users lyla
     tags: always
-    apt:
-      upgrade: dist
-      update_cache: yes
-    when: ansible_distribution in [ "Debian", "Ubuntu" ]
+    user:
+      name: lyla
+      groups: sudo
+
+  - name: add ssh key for lyla
+    tags: always
+    authorized_key:
+      user: lyla
+      key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMGP328LIy1vSkyupe3UD+CpVQmWcl6uHz2MIZMGSLMq paul default"
+
+  - name: create users renee
+    tags: always
+    user:
+      name: renee
+      groups: sudo
+
+  - name: add ssh key for renee
+    tags: always
+    authorized_key:
+      user: renee
+      key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMGP328LIy1vSkyupe3UD+CpVQmWcl6uHz2MIZMGSLMq paul default"
 
 - hosts: workstations
   become: true
@@ -26,14 +46,14 @@
     package:
       name: unzip
 
-  - name: install terraform
-    unarchive:
-      src: https://releases.hashicorp.com/terraform/0.12.28/terraform_0.12.28_linux_amd64.zip
-      dest: /usr/local/bin
-      remote_src: yes
-      mode: 0755
-      owner: root
-      group: root
+  # - name: install terraform
+  #   unarchive:
+  #     src: https://releases.hashicorp.com/terraform/0.12.28/terraform_0.12.28_linux_amd64.zip
+  #     dest: /usr/local/bin
+  #     remote_src: yes
+  #     mode: 0755
+  #     owner: root
+  #     group: root
 
 - hosts: web_servers
   become: true

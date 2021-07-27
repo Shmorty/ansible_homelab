@@ -1,0 +1,42 @@
+---
+
+- hosts: all
+  become: true
+  pre_tasks:
+
+  - name: install updates (CentOS)
+    tags: always
+    dnf:
+      update_only: yes
+      update_cache: yes
+    when: ansible_distribution == "CentOS"
+
+  - name: install updates (Debian or Ubuntu)
+    tags: always
+    apt:
+      upgrade: dist
+      update_cache: yes
+    when: ansible_distribution in [ "Debian", "Ubuntu" ]
+
+- hosts: all
+  become: true
+  tasks:
+
+  - name: create users admin
+    tags: always
+    user:
+      name: admin
+      groups: root
+
+  - name: add ansible ssh key for admin
+    tags: always
+    authorized_key:
+      user: admin
+      key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPntAHt5AXB8v/wyHRwPVia0OJTZqLuEJEUs2aiYTDpn ansible"
+
+  - name: add sudoers file for admin
+    tags: always
+    copy:
+      src: sudoers_admin
+      dest: /etc/sudoers.d/admin
+
