@@ -3,3 +3,21 @@
   package:
     name: samba
     state: latest
+
+- name: change permission on share folder
+  file:
+    path: "{{ item }}"
+    mode: 0777
+  loop:
+    - /music
+    - /pictures
+
+- name: generate smb.conf file from template
+  tags: samba
+  template:
+    src: "{{ smb_conf_template_file }}"
+    dest: /etc/samba/smb.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart_samba

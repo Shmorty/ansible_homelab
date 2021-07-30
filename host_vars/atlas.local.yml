@@ -4,3 +4,6 @@ php_package_name: libapache2-mod-php
 ssh_users: "paul admin"
 ssh_template_file: sshd_config_debian.j2
 sshd_service: sshd
+smb_conf_template_file: smb_conf_debian.j2
+smbd_service: smbd
+data_share_location: /music

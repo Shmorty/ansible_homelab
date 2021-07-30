@@ -1,6 +1,8 @@
-- name: install unzip
+- name: install apps (unzip, curl...)
   package:
-    name: unzip
+    name:
+      - unzip
+      - curl
 
 # - name: install terraform
 #   unarchive:
