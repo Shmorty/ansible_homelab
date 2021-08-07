@@ -3,6 +3,8 @@
     name:
       - unzip
       - curl
+      - lm-sensors
+      - gnome-remote-desktop
 
 # - name: install terraform
 #   unarchive:
@@ -12,3 +14,6 @@
 #     mode: 0755
 #     owner: root
 #     group: root
+
+#systemctl start --user gnome-remote-desktop
+#systemctl status --user gnome-remote-desktop

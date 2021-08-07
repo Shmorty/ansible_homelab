@@ -12,3 +12,11 @@
     group: root
     mode: 0644
   notify: restart_sshd
+
+# this command used for system that should never suspend
+# sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
+# sudo systemctl restart systemd-logind.service
+- name: disable atomatic suspend
+  service:
+    name: "sleep.target suspend.target hibernate.target hybrid-sleep.target"
+    masked: yes

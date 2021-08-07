@@ -1,0 +1,21 @@
+- name: install kvm
+  tags: kvm,hypervisor
+  apt:
+    name:
+      - qemu-system
+      - libvirt-clients
+      - libvirt-daemon-system
+    state: present
+
+- name: start/enable libvirtd
+  tags: kvm,hypervisor
+  service:
+    name: libvirtd
+    state: started
+    enabled: yes
+
+- name: add user to libvirt group
+  user:
+    name: admin
+    groups: libvirt
+    append: yes

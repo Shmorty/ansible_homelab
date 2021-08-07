@@ -11,6 +11,7 @@
   loop:
     - /music
     - /pictures
+    - /video
 
 - name: generate smb.conf file from template
   tags: samba
@@ -21,3 +22,12 @@
     group: root
     mode: 0644
   notify: restart_samba
+
+# - name: setup samba users
+#   tags: samba
+#   shell:
+#     cmd: smbpasswd -a {{ item }} -n
+#   loop:
+#     - paul
+#     - lyla
+#     - renee

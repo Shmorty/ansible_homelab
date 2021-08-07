@@ -34,3 +34,8 @@
   become: true
   roles:
     - file_servers
+
+- hosts: hypervisors
+  become: true
+  roles:
+    - hypervisor

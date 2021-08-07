@@ -3,6 +3,9 @@
 [file_servers]
 atlas.local
 
+[hypervisors]
+atlas.local
+
 [pi]
 raspberrypi.local
 
@@ -10,3 +13,4 @@ raspberrypi.local
 
 [workstations]
 atlas.local
+

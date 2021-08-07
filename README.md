@@ -67,3 +67,9 @@ I've manually installed zfs and created a pool
 	├─sdc1                 8:33   0 931.5G  0 part 
 	└─sdc9                 8:41   0     8M  0 part 
 	sr0                   11:0    1  1024M  0 rom 
+
+## manual installs
+- AWS CLI to allow me to download files from an S3 bucket
+- Plex media server
+
+$ aws s3 sync s3://windows-pc-backup-may-2021/Pictures /pictures
